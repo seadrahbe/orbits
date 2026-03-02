@@ -7,18 +7,18 @@ Orbiter::Orbiter(bn::fixed_point starting_location, bn::fixed_point starting_vel
 }
 
  void Orbiter::update() {
-            // A vector from the Orbiter to the Center
-            bn::fixed_point delta = _center.position() - _sprite.position();
+    // A vector from the Orbiter to the Center
+    bn::fixed_point delta = _center.position() - _sprite.position();
 
-            // Scale the vector by the mass and apply a FORCE_SCALE
-            // This is done in two steps instead of having a pre-scaled mass to prevent loss of
-            // fixed point precision
-            bn::fixed_point force = delta * _center.mass();
-            force /= FORCE_SCALE;
+    // Scale the vector by the mass and apply a FORCE_SCALE
+    // This is done in two steps instead of having a pre-scaled mass to prevent loss of
+    // fixed point precision
+    bn::fixed_point force = delta * _center.mass();
+    force /= FORCE_SCALE;
 
-            // Update the current velocity with the force
-            _velocity += force;
+    // Update the current velocity with the force
+    _velocity += force;
 
-            // Update the position by taking a step by the velocity vector
-            _sprite.set_position(_sprite.position() + _velocity);
-        }
+    // Update the position by taking a step by the velocity vector
+    _sprite.set_position(_sprite.position() + _velocity);
+}
