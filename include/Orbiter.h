@@ -1,0 +1,48 @@
+#ifndef ORBITER_H
+#define ORBITER_H
+
+#include <bn_fixed_point.h>
+#include <bn_fixed.h>
+
+#include "bn_sprite_items_dot.h"
+#include "Center.h"
+
+// Maximum number of orbiters allowed on the screen
+static constexpr int MAX_ORBITERS = 30;
+
+// Default starting posiiton and velocity for Orbiter
+static constexpr bn::fixed_point ORBITER_START_POSIITON = {0, 0};
+static constexpr bn::fixed_point ORBITER_START_VELOCITY = {0, 5};
+
+// A scaling factor by which to reduce the force applied when orbiting
+// Important for numerical stability
+static constexpr bn::fixed FORCE_SCALE = 10;
+
+
+/**
+ * An object that orbits around a center. Orbits using Hooke's law, as if attached by a 2D spring.
+ * The stiffness of the spring in each dimension is center.mass() / FORCE_SCALE. 
+ */
+class Orbiter {
+    public:
+        /**
+         * Creates an orbiter.
+         * 
+         * @param starting_location the initial location of the Orbiter
+         * @param starting_velocity the initial velocity of the Orbiter, {dx, dy}
+         * @param center the center to orbit around
+         */
+        Orbiter(bn::fixed_point starting_location, bn::fixed_point starting_velocity, Center &center);
+
+        /**
+         * Take a step orbiting around the center.
+         */
+        void update();
+
+    private:
+        bn::sprite_ptr _sprite;
+        bn::fixed_point _velocity;
+        Center& _center;
+};
+
+#endif
